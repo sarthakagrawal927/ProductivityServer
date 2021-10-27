@@ -83,8 +83,7 @@ yarn dev # start the server
 To kill the port if EADDRINUSE error:
 
 ```bash
-lsof -i TCP:PORT_NUMBER
-kill PID
+npx kill-port PORT
 ```
 
 Checking the DB:

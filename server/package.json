@@ -6,7 +6,7 @@
 	"main": "server.js",
 	"scripts": {
 		"codegen": "graphql-codegen --config codegen.yml",
-		"dev": "concurrently \"yarn watch\" \"nodemon dist/server.js\" \"yarn codegen --watch\"",
+		"dev": "concurrently \"yarn watch\" \"pm2 start dist/server.js\" \"yarn codegen --watch\"",
 		"watch": "tsc -w",
 		"build": "yarn codegen && tsc",
 		"start": "node dist/server.js",
