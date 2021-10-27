@@ -11,7 +11,93 @@ generator client {
 }
 
 model User {
-    id    Int     @id @default(autoincrement())
-    email String  @unique
-    name  String?
+    id              Int        @id @unique @default(autoincrement())
+    email           String     @unique
+    name            String
+    createdAt       DateTime   @default(now())
+    planForTomorrow Timeslot[]
+    journal         Journal[]
+    goal            Goal[]
+    habit           Habit[]
+    Task            Task[]
+}
+
+model Tag {
+    id          Int      @id @unique @default(autoincrement())
+    name        String
+    description String?
+    Generic     Generic? @relation(fields: [genericId], references: [id])
+    genericId   Int?
+    createdAt   DateTime @default(now())
+}
+
+model Generic {
+    id          Int       @id @unique @default(autoincrement())
+    name        String
+    description String?
+    tags        Tag[]
+    Task        Task[]
+    createdAt   DateTime  @default(now())
+    Goal        Goal[]
+    Habit       Habit[]
+    userId      Int?
+    Journal     Journal[]
+}
+
+model Journal {
+    id        Int     @id @unique
+    base      Generic @relation(fields: [genericId], references: [id])
+    genericId Int
+    User      User?   @relation(fields: [userId], references: [id])
+    userId    Int?
+    type      String // gratitude, idea, event, learning
+}
+
+model Task {
+    id             Int        @id @unique
+    base           Generic    @relation(fields: [genericId], references: [id])
+    genericId      Int
+    deadline       DateTime
+    priority       Int
+    predictedHours Float
+    User           User?      @relation(fields: [userId], references: [id])
+    userId         Int?
+    Timeslot       Timeslot[]
+}
+
+model Goal {
+    id                Int        @id @unique
+    base              Generic    @relation(fields: [genericId], references: [id])
+    genericId         Int
+    why               String
+    relevance         String
+    predictedTimeline Timeslot[]
+    User              User?      @relation(fields: [userId], references: [id])
+    userId            Int?
+}
+
+model Habit {
+    id          Int       @id @unique
+    base        Generic   @relation(fields: [genericId], references: [id])
+    genericId   Int
+    startDate   DateTime
+    trackRecord Boolean[]
+    User        User?     @relation(fields: [userId], references: [id])
+    userId      Int?
+    timeSlot    Timeslot? @relation(fields: [timeslotId], references: [id])
+    timeslotId  Int
+}
+
+model Timeslot {
+    id     Int      @id @unique
+    start  DateTime
+    end    DateTime
+    name   String?
+    task   Task?    @relation(fields: [taskId], references: [id])
+    User   User?    @relation(fields: [userId], references: [id])
+    userId Int?
+    taskId Int
+    Habit  Habit[]
+    Goal   Goal?    @relation(fields: [goalId], references: [id])
+    goalId Int?
 }

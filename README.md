@@ -3,11 +3,19 @@
 ## DB
 
 ```ts
+type generic={
+    name: string,
+    desc: string,
+    id:string,
+    tags: [tag],
+}
+
 type user = {
     name:string,
     email:string,
     phone: string,
     // andMore,
+
     habit:[habit]
     idea:[idea]
     task:[task]
@@ -15,13 +23,6 @@ type user = {
     event:[event]
     goal:[goal]
     planForTomorrow:[planForTomorrow]
-}
-
-type generic={
-    name: string,
-    desc: string,
-    id:string,
-    tags: [tag],
 }
 
 type gratitude = {
