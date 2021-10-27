@@ -19,6 +19,14 @@ const typeDefs = gql`
     VERY_LOW
   }
 
+  enum Status {
+    NEW
+    PENDING
+    IN_PROGRESS
+    COMPLETED
+    BLOCKED
+  }
+
   type User {
     id: String!
     name: String!
@@ -28,13 +36,14 @@ const typeDefs = gql`
     goals: [Goal]
     habits: [Habit]
     tasks: [Task]
+    projects: [Project]
   }
 
   type Tag {
     id: String!
     name: String!
     description: String!
-    generic: Generic
+    generic: [Generic]
   }
 
   type Generic {
@@ -42,10 +51,11 @@ const typeDefs = gql`
     name: String!
     description: String!
     tags: [Tag]
-    task: [Task]
-    goal: [Goal]
-    habit: [Habit]
-    journal: [Journal]
+    task: Task
+    goal: Goal
+    habit: Habit
+    journal: Journal
+    project: Project
   }
 
   type Journal {
@@ -60,7 +70,7 @@ const typeDefs = gql`
     deadline: DateTime
     priority: Priority
     predictedHours: Float
-    TimeSlot: [TimeSlot]
+    TimeSlot: TimeSlot
   }
 
   type Goal {
@@ -85,6 +95,12 @@ const typeDefs = gql`
     end: DateTime!
     name: String
     task: Task
+  }
+
+  type Project {
+    id: String!
+    base: Generic!
+    tasks: [Task]
   }
 
   type Query {
