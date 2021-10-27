@@ -3,11 +3,14 @@
 ## Tech Stack
 
 Database: PostgreSQL
+
 ORM: Prisma
+
 Backend: GraphQL-Apollo, Node
 
-Frontend: NextJS
-Frontend:StateManagement - Recoil
+Frontend: NextJS & iOS or React-Native
+
+Frontend:StateManagement - Redux, Redux-Toolkit
 
 ## Endpoints
 
@@ -25,7 +28,7 @@ Frontend:StateManagement - Recoil
 
 // GET
 
-// returns the time table & tasks for the day
+// returns the time table & tasks for the day, maybe just get this in get User request
 /today/
 /tomorrow/
 /date/:date
@@ -55,4 +58,43 @@ Frontend:StateManagement - Recoil
             }
         }
     }
+```
+
+## Project Setup
+
+Go to client:
+
+```bash
+yarn # to install dependencies
+yarn dev # start the server
+```
+
+Go to server:
+
+```bash
+yarn # to install dependencies
+npx prisma generate # updating prisma types in client
+npx prisma migrate dev # updating prisma types in the database
+yarn dev # start the server
+```
+
+## Debugging
+
+To kill the port if EADDRINUSE error:
+
+```bash
+lsof -i TCP:PORT_NUMBER
+kill PID
+```
+
+Checking the DB:
+
+```bash
+npx prisma studio
+```
+
+Regenerating DB:
+
+```bash
+npx prisma migrate
 ```

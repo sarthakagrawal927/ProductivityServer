@@ -1,9 +1,9 @@
-import userResolvers from "./userResolvers";
+import userResolvers from "./user";
 
 const resolvers = {
-  Query: {
-    ...userResolvers.Query,
-  },
+	Query: {
+		...userResolvers.Query,
+	},
 };
 
 export default resolvers;

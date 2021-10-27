@@ -6,11 +6,9 @@ import { context } from "./context";
 const PORT = process.env.PORT || 4000;
 
 const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  context,
+	typeDefs,
+	resolvers,
+	context,
 });
 
-server.listen({ port: PORT }, () =>
-  console.log(`🚀 Server listening at: http://localhost:${PORT}`),
-);
+server.listen({ port: PORT }, () => console.log(`🚀 Server listening at: http://localhost:${PORT}`));
