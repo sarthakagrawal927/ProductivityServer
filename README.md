@@ -77,3 +77,15 @@ type planForTomorrow = {
 /tomorrow
 
 ```
+
+```graphql
+    query{
+        user{
+            habit{
+                generic{
+                    select: tag in tags
+                }
+            }
+        }
+    }
+```
