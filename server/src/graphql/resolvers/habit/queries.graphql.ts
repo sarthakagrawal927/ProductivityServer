@@ -11,7 +11,6 @@ const queries = {
     return user;
   },
 
-  // testing query
   async getUsers(_parent: any, _args: any, { prisma }: ApolloContext) {
     const users = await prisma.user.findMany();
     return users;

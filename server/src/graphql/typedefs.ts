@@ -40,16 +40,16 @@ const typeDefs = gql`
   }
 
   type Tag {
-    id: String!
+    id: String
     name: String!
-    description: String!
+    description: String
     generic: [Generic]
   }
 
   type Generic {
-    id: String!
+    id: String
     name: String!
-    description: String!
+    description: String
     tags: [Tag]
     task: Task
     goal: Goal
@@ -59,13 +59,13 @@ const typeDefs = gql`
   }
 
   type Journal {
-    id: String!
+    id: String
     base: Generic!
     type: Type!
   }
 
   type Task {
-    id: String!
+    id: String
     base: Generic!
     deadline: DateTime
     priority: Priority
@@ -74,37 +74,37 @@ const typeDefs = gql`
   }
 
   type Goal {
-    id: String!
+    id: String
     base: Generic!
-    why: String!
-    relevance: String!
+    why: String
+    relevance: String
     predictedTimeline: [TimeSlot]
   }
 
   type Habit {
-    id: String!
+    id: String
     base: Generic!
     startDate: DateTime
-    trackRecord: [Boolean]
+    trackRecord: String
     timeSlot: [TimeSlot]
   }
 
   type TimeSlot {
-    id: String!
+    id: String
     start: DateTime!
     end: DateTime!
-    name: String
     task: Task
   }
 
   type Project {
-    id: String!
+    id: String
     base: Generic!
     tasks: [Task]
   }
 
   type Query {
     getUser(id: String!): User
+    getUsers: [User]
     getHabit(id: String!): Habit
     getJournal(id: String!): Journal
     getProject(id: String!): Project
@@ -118,8 +118,30 @@ const typeDefs = gql`
     password: String!
   }
 
+  input CreateTagInput {
+    name: String!
+  }
+
+  input TimeSlotInput {
+    start: DateTime!
+    end: DateTime!
+    name: String
+  }
+
+  input CreateHabitInput {
+    userID: String!
+    name: String!
+    description: String
+    tags: [CreateTagInput]
+    startDate: DateTime
+    trackRecord: String
+    timeSlot: TimeSlotInput
+  }
+
   type Mutation {
     createUser(createUserInput: CreateUserInput!): User
+    createTag(createTagInput: CreateTagInput!): Tag
+    createHabit(createHabitInput: CreateHabitInput!): Habit
   }
 `;
 
