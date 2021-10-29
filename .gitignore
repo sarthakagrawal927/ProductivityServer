@@ -1,5 +1,7 @@
-server/node_modules
-server/dist
+node_modules
+dist
 .pnpm-debug.log
-server/pnpm-lock.yaml
-server/src/types
+pnpm-lock.yaml
+src/types
+.vscode
+.env
