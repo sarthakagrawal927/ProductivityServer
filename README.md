@@ -18,13 +18,14 @@ Frontend:StateManagement - Redux, Redux-Toolkit
 
 // CRUD
 
-/habit/:habitID
-/tag/:tagID
-/project/:projectID
-/journal/:journalID
-/task/:taskID
-/goal/:goalID
-/timeSlot/:timeSlotID
+/user/:userID  [CREATE, READ ✅, UPDATE, DELETE]
+/habit/:habitID  [CREATE, READ, UPDATE, DELETE]
+/tag/:tagID  [CREATE, UPDATE, DELETE]
+/project/:projectID  [CREATE, READ, UPDATE, DELETE]
+/journal/:journalID  [CREATE, READ, UPDATE, DELETE]
+/task/:taskID  [CREATE, READ, UPDATE, DELETE]
+/goal/:goalID  [CREATE, READ, UPDATE, DELETE]
+/timeSlot/:timeSlotID  [CREATE, READ, UPDATE, DELETE]
 
 // GET
 
