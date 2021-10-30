@@ -105,6 +105,7 @@ const typeDefs = gql`
   type Query {
     getUser(id: String!): User
     getUsers: [User]
+    getTags: [Tag]
     getHabit(id: String!): Habit
     getJournal(id: String!): Journal
     getProject(id: String!): Project
@@ -120,6 +121,7 @@ const typeDefs = gql`
 
   input CreateTagInput {
     name: String!
+    description: String
   }
 
   input TimeSlotInput {
