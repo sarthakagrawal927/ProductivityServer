@@ -5,12 +5,8 @@ const mutations: MutationResolvers<ApolloContext, Task> = {
 	async createTask(_, { createTaskInput }, { prisma }: ApolloContext) {
 		const task: Task = await prisma.task.create({
 			data: {
-				generic: {
-					create: {
-						name: createTaskInput?.name,
-						description: createTaskInput?.description,
-					},
-				},
+				name: createTaskInput?.name,
+				description: createTaskInput?.description,
 				deadline: createTaskInput?.deadline,
 				priority: createTaskInput?.priority,
 				status: createTaskInput?.status,

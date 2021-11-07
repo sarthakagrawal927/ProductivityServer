@@ -12,17 +12,17 @@ const typeDefs = gql`
 	}
 
 	enum Priority {
-		VERY_HIGH
+		TOP
 		HIGH
 		MEDIUM
 		LOW
-		VERY_LOW
+		MAYBE
 	}
 
 	enum Status {
 		NEW
 		PENDING
-		IN_PROGRESS
+		PROGRESSING
 		COMPLETED
 		BLOCKED
 	}
@@ -31,7 +31,7 @@ const typeDefs = gql`
 		id: String!
 		name: String!
 		email: String!
-		plansForTomorrow: [TimeSlot]
+		planForTomorrow: [TimeSlot]
 		journals: [Journal]
 		goals: [Goal]
 		habits: [Habit]
@@ -43,57 +43,11 @@ const typeDefs = gql`
 		id: String!
 		name: String!
 		description: String
-		generic: [Generic]
-	}
-
-	type Generic {
-		id: String!
-		name: String!
-		description: String
-		tags: [Tag]
-		task: Task
-		goal: Goal
-		habit: Habit
-		journal: Journal
-		project: Project
-	}
-
-	type Journal {
-		id: String!
-		generic: Generic!
-		type: JournalType!
-	}
-
-	type Task {
-		id: String!
-		generic: Generic!
-		deadline: DateTime!
-		priority: Priority!
-		predictedHours: Float
-		status: Status!
-		TimeSlot: TimeSlot
-	}
-
-	type Goal {
-		id: String!
-		generic: Generic!
-		why: String
-		relevance: String
-		predictedTimeline: [TimeSlot]
-	}
-
-	type Habit {
-		id: String!
-		generic: Generic!
-		startDate: DateTime
-		trackRecord: String
-		timeSlot: [TimeSlot]
-	}
-
-	type Project {
-		id: String!
-		generic: Generic!
+		journals: [Journal]
+		goals: [Goal]
+		habits: [Habit]
 		tasks: [Task]
+		projects: [Project]
 	}
 
 	type TimeSlot {
@@ -102,6 +56,54 @@ const typeDefs = gql`
 		end: DateTime!
 		task: Task
 		name: String
+	}
+
+	type Journal {
+		id: String!
+		name: String!
+		description: String
+		tags: [Tag]
+		journalType: JournalType!
+	}
+
+	type Task {
+		id: String!
+		name: String!
+		description: String
+		tags: [Tag]
+		deadline: DateTime
+		priority: Priority!
+		predictedHours: Float
+		status: Status
+		timeSlot: TimeSlot
+	}
+
+	type Goal {
+		id: String!
+		name: String!
+		description: String
+		tags: [Tag]
+		why: String
+		relevance: String
+		predictedTimeline: [TimeSlot]
+	}
+
+	type Habit {
+		id: String!
+		name: String!
+		description: String
+		tags: [Tag]
+		startDate: DateTime
+		trackRecord: String
+		timeSlot: [TimeSlot]
+	}
+
+	type Project {
+		id: String!
+		name: String!
+		description: String
+		tags: [Tag]
+		tasks: [Task]
 	}
 
 	type Query {
@@ -113,11 +115,6 @@ const typeDefs = gql`
 		getProject(id: String!): Project
 		getGoal(id: String!): Goal
 		getTask(id: String!): Task
-	}
-
-	input CreateGenericInput {
-		name: String!
-		description: String
 	}
 
 	input CreateUserInput {
@@ -135,6 +132,7 @@ const typeDefs = gql`
 		start: DateTime!
 		end: DateTime!
 		name: String
+		task: CreateTaskInput
 	}
 
 	input CreateHabitInput {
@@ -151,9 +149,11 @@ const typeDefs = gql`
 		userID: String!
 		name: String!
 		description: String
-		deadline: DateTime!
+		tags: [CreateTagInput]
+		startDate: DateTime
+		deadline: DateTime
 		priority: Priority!
-		predictedHours: Float
+		predictedHours: Float!
 		status: Status!
 		timeSlot: TimeSlotInput
 	}
@@ -180,5 +180,4 @@ export default typeDefs;
     allTags: [Tag]
     allJournalsByTag: [Journal]
     allGoalsByTag: [Goal]
-    everythingByTag: [User]
 */
