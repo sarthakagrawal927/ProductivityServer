@@ -10,7 +10,7 @@ generator client {
     provider = "prisma-client-js"
 }
 
-enum Type {
+enum JournalType {
     GRATITUDE
     EVENT
     IDEA
@@ -42,40 +42,31 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    planForTomorrow TimeSlot[]
-    journals        Journal[]
-    goals           Goal[]
-    habits          Habit[]
-    tasks           Task[]
-    projects        Project[]
+    TimeSlot TimeSlot[]
+    Journal  Journal[]
+    Task     Task[]
+    Goal     Goal[]
+    Habit    Habit[]
+    Project  Project[]
 }
 
 model Tag {
-    id          String  @id @unique @default(uuid())
+    id          String   @id @unique @default(uuid())
     name        String
     description String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 
-    generic   Generic[] @relation(fields: [genericId], references: [id])
-    genericId String?
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-}
-
-model Generic {
-    id          String  @id @unique @default(uuid())
-    name        String
-    description String?
-    tags        Tag[]
-
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    task    Task?
-    goal    Goal?
-    habit   Habit?
-    journal Journal?
-    project Project?
+    Journal   Journal? @relation(fields: [journalId], references: [id])
+    journalId String?
+    Task      Task?    @relation(fields: [taskId], references: [id])
+    taskId    String?
+    Goal      Goal?    @relation(fields: [goalId], references: [id])
+    goalId    String?
+    Habit     Habit?   @relation(fields: [habitId], references: [id])
+    habitId   String?
+    Project   Project? @relation(fields: [projectId], references: [id])
+    projectId String?
 }
 
 model TimeSlot {
@@ -96,21 +87,27 @@ model TimeSlot {
 }
 
 model Journal {
-    id        String  @id @unique @default(uuid())
-    base      Generic @relation(fields: [genericId], references: [id])
-    genericId String  @unique
-    user      User?   @relation(fields: [userId], references: [id])
-    userId    String?
+    id          String   @id @unique @default(uuid())
+    name        String
+    description String?
+    tags        Tag[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    user        User?    @relation(fields: [userId], references: [id])
+    userId      String?
 
-    type Type // gratitude, idea, event, learning
+    journalType JournalType // gratitude, idea, event, learning
 }
 
 model Task {
-    id        String  @id @unique @default(uuid())
-    base      Generic @relation(fields: [genericId], references: [id])
-    genericId String  @unique
-    user      User?   @relation(fields: [userId], references: [id])
-    userId    String?
+    id          String   @id @unique @default(uuid())
+    name        String
+    description String?
+    tags        Tag[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    user        User?    @relation(fields: [userId], references: [id])
+    userId      String?
 
     deadline       DateTime?
     priority       Priority
@@ -122,24 +119,29 @@ model Task {
 }
 
 model Goal {
-    id        String  @id @unique @default(uuid())
-    base      Generic @relation(fields: [genericId], references: [id])
-    genericId String  @unique
-    user      User?   @relation(fields: [userId], references: [id])
-    userId    String?
+    id          String   @id @unique @default(uuid())
+    name        String
+    description String?
+    tags        Tag[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    user        User?    @relation(fields: [userId], references: [id])
+    userId      String?
 
-    why       String
-    relevance String
-
+    why               String
+    relevance         String
     predictedTimeline TimeSlot[]
 }
 
 model Habit {
-    id        String  @id @unique @default(uuid())
-    base      Generic @relation(fields: [genericId], references: [id])
-    genericId String  @unique
-    user      User?   @relation(fields: [userId], references: [id])
-    userId    String?
+    id          String   @id @unique @default(uuid())
+    name        String
+    description String?
+    tags        Tag[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    user        User?    @relation(fields: [userId], references: [id])
+    userId      String?
 
     startDate   DateTime
     trackRecord String?  @default("")
@@ -149,10 +151,14 @@ model Habit {
 }
 
 model Project {
-    id        String  @id @unique @default(uuid())
-    base      Generic @relation(fields: [genericId], references: [id])
-    genericId String  @unique
-    tasks     Task[]
-    user      User?   @relation(fields: [userId], references: [id])
-    userId    String?
+    id          String   @id @unique @default(uuid())
+    name        String
+    description String?
+    tags        Tag[]
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    user        User?    @relation(fields: [userId], references: [id])
+    userId      String?
+
+    tasks Task[]
 }

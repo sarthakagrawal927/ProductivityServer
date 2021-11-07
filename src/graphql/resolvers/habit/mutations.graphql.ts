@@ -8,24 +8,19 @@ const mutations = {
     { prisma }: ApolloContext,
   ) {
     const newHabit: Prisma.HabitCreateInput = {
-      base: {
-        create: {
-          name: createHabitInput.name,
-          description: createHabitInput.description,
-        },
-      },
-      startDate: createHabitInput.startDate,
-      trackRecord: createHabitInput.trackRecord,
+      name: createHabitInput.name,
+      startDate: createHabitInput?.startDate,
+      trackRecord: createHabitInput?.trackRecord,
       timeSlot: {
         create: {
-          end: createHabitInput.timeSlot?.end,
-          start: createHabitInput.timeSlot?.start,
-          name: createHabitInput.timeSlot?.name,
+          end: createHabitInput?.timeSlot?.end,
+          start: createHabitInput?.timeSlot?.start,
+          name: createHabitInput?.timeSlot?.name,
         },
       },
       user: {
         connect: {
-          id: createHabitInput.userID,
+          id: createHabitInput?.userID,
         },
       },
     };

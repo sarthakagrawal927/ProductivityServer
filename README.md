@@ -65,15 +65,6 @@ Frontend:StateManagement - Redux, Redux-Toolkit
 
 ## Project Setup
 
-Go to client:
-
-```bash
-yarn # to install dependencies
-yarn dev # start the server
-```
-
-Go to server:
-
 ```bash
 yarn # to install dependencies
 npx prisma generate # updating prisma types in client
@@ -86,7 +77,7 @@ yarn dev # start the server
 To kill the port if EADDRINUSE error:
 
 ```bash
-npx kill-port PORT
+npx kill-port 4000
 ```
 
 Checking the DB:

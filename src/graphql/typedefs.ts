@@ -4,7 +4,7 @@ import { gql } from "apollo-server";
 const typeDefs = gql`
   scalar DateTime
 
-  enum Type {
+  enum JournalType {
     GRATITUDE
     EVENT
     IDEA
@@ -28,10 +28,10 @@ const typeDefs = gql`
   }
 
   type User {
-    id: String
-    name: String
-    email: String
-    plansForTomorrow: [TimeSlot]
+    id: String!
+    name: String!
+    email: String!
+    planForTomorrow: [TimeSlot]
     journals: [Journal]
     goals: [Goal]
     habits: [Habit]
@@ -40,53 +40,14 @@ const typeDefs = gql`
   }
 
   type Tag {
-    id: String
+    id: String!
     name: String!
     description: String
-    generic: [Generic]
-  }
-
-  type Generic {
-    id: String
-    name: String!
-    description: String
-    tags: [Tag]
-    task: Task
-    goal: Goal
-    habit: Habit
-    journal: Journal
-    project: Project
-  }
-
-  type Journal {
-    id: String
-    base: Generic!
-    type: Type!
-  }
-
-  type Task {
-    id: String
-    base: Generic!
-    deadline: DateTime
-    priority: Priority
-    predictedHours: Float
-    TimeSlot: TimeSlot
-  }
-
-  type Goal {
-    id: String
-    base: Generic!
-    why: String
-    relevance: String
-    predictedTimeline: [TimeSlot]
-  }
-
-  type Habit {
-    id: String
-    base: Generic!
-    startDate: DateTime
-    trackRecord: String
-    timeSlot: [TimeSlot]
+    journals: [Journal]
+    goals: [Goal]
+    habits: [Habit]
+    tasks: [Task]
+    projects: [Project]
   }
 
   type TimeSlot {
@@ -94,11 +55,54 @@ const typeDefs = gql`
     start: DateTime!
     end: DateTime!
     task: Task
+    name: String
+  }
+
+  type Journal {
+    id: String!
+    name: String!
+    description: String
+    tags: [Tag]
+    journalType: JournalType!
+  }
+
+  type Task {
+    id: String!
+    name: String!
+    description: String
+    tags: [Tag]
+    deadline: DateTime
+    priority: Priority
+    predictedHours: Float
+    status: Status
+    TimeSlot: TimeSlot
+  }
+
+  type Goal {
+    id: String!
+    name: String!
+    description: String
+    tags: [Tag]
+    why: String
+    relevance: String
+    predictedTimeline: [TimeSlot]
+  }
+
+  type Habit {
+    id: String!
+    name: String!
+    description: String
+    tags: [Tag]
+    startDate: DateTime
+    trackRecord: String
+    timeSlot: [TimeSlot]
   }
 
   type Project {
-    id: String
-    base: Generic!
+    id: String!
+    name: String!
+    description: String
+    tags: [Tag]
     tasks: [Task]
   }
 
@@ -161,5 +165,4 @@ export default typeDefs;
     allTags: [Tag]
     allJournalsByTag: [Journal]
     allGoalsByTag: [Goal]
-    everythingByTag: [User]
 */
