@@ -42,31 +42,101 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    TimeSlot TimeSlot[]
-    Journal  Journal[]
-    Task     Task[]
-    Goal     Goal[]
-    Habit    Habit[]
-    Project  Project[]
+    planForTomorrow TimeSlot[]
+    journals        Journal[]
+    goals           Goal[]
+    habits          Habit[]
+    tasks           Task[]
+    projects        Project[]
 }
 
 model Tag {
-    id          String   @id @unique @default(uuid())
+    id          String  @id @unique @default(uuid())
     name        String
     description String?
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
 
-    Journal   Journal? @relation(fields: [journalId], references: [id])
-    journalId String?
-    Task      Task?    @relation(fields: [taskId], references: [id])
-    taskId    String?
-    Goal      Goal?    @relation(fields: [goalId], references: [id])
-    goalId    String?
-    Habit     Habit?   @relation(fields: [habitId], references: [id])
-    habitId   String?
-    Project   Project? @relation(fields: [projectId], references: [id])
-    projectId String?
+    generic   Generic[] @relation(fields: [genericId], references: [id])
+    genericId String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+model Generic {
+    id          String  @id @unique @default(uuid())
+    name        String
+    description String?
+    tags        Tag[]
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    task    Task?
+    goal    Goal?
+    habit   Habit?
+    journal Journal?
+    project Project?
+}
+
+model Journal {
+    id        String  @id @unique @default(uuid())
+    generic   Generic @relation(fields: [genericId], references: [id])
+    genericId String  @unique
+    user      User?   @relation(fields: [userId], references: [id])
+    userId    String?
+
+    type JournalType // gratitude, idea, event, learning
+}
+
+model Task {
+    id        String  @id @unique @default(uuid())
+    generic   Generic @relation(fields: [genericId], references: [id])
+    genericId String  @unique
+    user      User?   @relation(fields: [userId], references: [id])
+    userId    String?
+
+    deadline       DateTime?
+    priority       Priority
+    status         Status    @default(NEW)
+    predictedHours Float?
+    timeslot       TimeSlot?
+    project        Project?  @relation(fields: [projectId], references: [id])
+    projectId      String?
+}
+
+model Goal {
+    id        String  @id @unique @default(uuid())
+    generic   Generic @relation(fields: [genericId], references: [id])
+    genericId String  @unique
+    user      User?   @relation(fields: [userId], references: [id])
+    userId    String?
+
+    why               String
+    relevance         String
+    predictedTimeline TimeSlot[]
+}
+
+model Habit {
+    id        String  @id @unique @default(uuid())
+    generic   Generic @relation(fields: [genericId], references: [id])
+    genericId String  @unique
+    user      User?   @relation(fields: [userId], references: [id])
+    userId    String?
+
+    startDate   DateTime
+    trackRecord String?  @default("")
+
+    timeSlot   TimeSlot? @relation(fields: [timeslotId], references: [id])
+    timeslotId String
+}
+
+model Project {
+    id        String  @id @unique @default(uuid())
+    generic   Generic @relation(fields: [genericId], references: [id])
+    genericId String  @unique
+    tasks     Task[]
+    user      User?   @relation(fields: [userId], references: [id])
+    userId    String?
 }
 
 model TimeSlot {
@@ -84,81 +154,4 @@ model TimeSlot {
 
     goal   Goal?   @relation(fields: [goalId], references: [id])
     goalId String?
-}
-
-model Journal {
-    id          String   @id @unique @default(uuid())
-    name        String
-    description String?
-    tags        Tag[]
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      String?
-
-    journalType JournalType // gratitude, idea, event, learning
-}
-
-model Task {
-    id          String   @id @unique @default(uuid())
-    name        String
-    description String?
-    tags        Tag[]
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      String?
-
-    deadline       DateTime?
-    priority       Priority
-    status         Status
-    predictedHours Float
-    timeslot       TimeSlot?
-    project        Project?  @relation(fields: [projectId], references: [id])
-    projectId      String?
-}
-
-model Goal {
-    id          String   @id @unique @default(uuid())
-    name        String
-    description String?
-    tags        Tag[]
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      String?
-
-    why               String
-    relevance         String
-    predictedTimeline TimeSlot[]
-}
-
-model Habit {
-    id          String   @id @unique @default(uuid())
-    name        String
-    description String?
-    tags        Tag[]
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      String?
-
-    startDate   DateTime
-    trackRecord String?  @default("")
-
-    timeSlot   TimeSlot? @relation(fields: [timeslotId], references: [id])
-    timeslotId String
-}
-
-model Project {
-    id          String   @id @unique @default(uuid())
-    name        String
-    description String?
-    tags        Tag[]
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      String?
-
-    tasks Task[]
 }

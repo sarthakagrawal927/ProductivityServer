@@ -14,3 +14,8 @@ const server = new ApolloServer({
 server.listen({ port: PORT }, () =>
   console.log(`🚀 Server listening at: http://localhost:${PORT}`),
 );
+
+process.on("SIGINT", () => {
+  console.log("Bye bye!");
+  process.exit();
+});
