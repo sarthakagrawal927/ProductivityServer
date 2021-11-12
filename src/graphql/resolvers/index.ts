@@ -1,7 +1,7 @@
 import userResolvers from "./user";
 import habitResolvers from "./habit";
 import tagResolvers from "./tag";
-import taskResolvers from "./habit";
+import taskResolvers from "./task";
 
 const resolvers = {
 	Query: {

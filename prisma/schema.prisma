@@ -10,28 +10,28 @@ generator client {
     provider = "prisma-client-js"
 }
 
-enum JournalType {
-    GRATITUDE
-    EVENT
-    IDEA
-    LEARNING
-}
+// enum JournalType {
+//     GRATITUDE
+//     EVENT
+//     IDEA
+//     LEARNING
+// }
 
-enum Priority {
-    TOP
-    HIGH
-    MEDIUM
-    LOW
-    MAYBE
-}
+// enum Priority {
+//     TOP
+//     HIGH
+//     MEDIUM
+//     LOW
+//     MAYBE
+// }
 
-enum Status {
-    NEW
-    PENDING
-    PROGRESSING
-    COMPLETED
-    BLOCKED
-}
+// enum Status {
+//     NEW
+//     PENDING
+//     PROGRESSING
+//     COMPLETED
+//     BLOCKED
+// }
 
 model User {
     id       String @id @unique @default(uuid())
@@ -75,7 +75,7 @@ model TimeSlot {
     end    DateTime
     name   String?
     task   Task?    @relation(fields: [taskId], references: [id])
-    taskId String   @unique
+    taskId String?  @unique
 
     user   User?   @relation(fields: [userId], references: [id])
     userId String?
@@ -96,7 +96,7 @@ model Journal {
     user        User?    @relation(fields: [userId], references: [id])
     userId      String?
 
-    journalType JournalType // gratitude, idea, event, learning
+    journalType String // gratitude, idea, event, learning
 }
 
 model Task {
@@ -110,9 +110,9 @@ model Task {
     userId      String?
 
     deadline       DateTime?
-    priority       Priority
-    status         Status    @default(NEW)
-    predictedHours Float
+    priority       String    @default("MEDIUM")
+    status         String    @default("NEW")
+    predictedHours Float?
     timeslot       TimeSlot?
     project        Project?  @relation(fields: [projectId], references: [id])
     projectId      String?

@@ -1,10 +1,6 @@
 import { gql } from "apollo-server";
-
-// here only the fields you want to query in future
-const typeDefs = gql`
-	scalar DateTime
-
-	enum JournalType {
+/* 	
+enum JournalType {
 		GRATITUDE
 		EVENT
 		IDEA
@@ -26,6 +22,11 @@ const typeDefs = gql`
 		COMPLETED
 		BLOCKED
 	}
+ */
+
+// here only the fields you want to query in future
+const typeDefs = gql`
+	scalar DateTime
 
 	type User {
 		id: String!
@@ -63,7 +64,7 @@ const typeDefs = gql`
 		name: String!
 		description: String
 		tags: [Tag]
-		journalType: JournalType!
+		journalType: String!
 	}
 
 	type Task {
@@ -72,9 +73,9 @@ const typeDefs = gql`
 		description: String
 		tags: [Tag]
 		deadline: DateTime
-		priority: Priority!
+		priority: String!
 		predictedHours: Float
-		status: Status
+		status: String!
 		timeSlot: TimeSlot
 	}
 
@@ -152,9 +153,9 @@ const typeDefs = gql`
 		tags: [CreateTagInput]
 		startDate: DateTime
 		deadline: DateTime
-		priority: Priority!
+		priority: String!
 		predictedHours: Float!
-		status: Status!
+		status: String!
 		timeSlot: TimeSlotInput
 	}
 
