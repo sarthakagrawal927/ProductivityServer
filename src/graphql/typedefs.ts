@@ -1,6 +1,10 @@
 import { gql } from "apollo-server";
-/* 	
-enum JournalType {
+
+// here only the fields you want to query in future
+const typeDefs = gql`
+	scalar DateTime
+
+	enum JournalType {
 		GRATITUDE
 		EVENT
 		IDEA
@@ -22,22 +26,13 @@ enum JournalType {
 		COMPLETED
 		BLOCKED
 	}
- */
-
-// here only the fields you want to query in future
-const typeDefs = gql`
-	scalar DateTime
 
 	type User {
 		id: String!
 		name: String!
 		email: String!
-		planForTomorrow: [TimeSlot]
+		planForTomorrow: [Task]
 		journals: [Journal]
-		goals: [Goal]
-		habits: [Habit]
-		tasks: [Task]
-		projects: [Project]
 	}
 
 	type Tag {
@@ -48,15 +43,12 @@ const typeDefs = gql`
 		goals: [Goal]
 		habits: [Habit]
 		tasks: [Task]
-		projects: [Project]
 	}
 
 	type TimeSlot {
 		id: String!
 		start: DateTime!
 		end: DateTime!
-		task: Task
-		name: String
 	}
 
 	type Journal {
@@ -64,7 +56,7 @@ const typeDefs = gql`
 		name: String!
 		description: String
 		tags: [Tag]
-		journalType: String!
+		journalType: JournalType!
 	}
 
 	type Task {
@@ -73,9 +65,9 @@ const typeDefs = gql`
 		description: String
 		tags: [Tag]
 		deadline: DateTime
-		priority: String!
+		priority: Priority!
+		status: Status!
 		predictedHours: Float
-		status: String!
 		timeSlot: TimeSlot
 	}
 
@@ -86,7 +78,7 @@ const typeDefs = gql`
 		tags: [Tag]
 		why: String
 		relevance: String
-		predictedTimeline: [TimeSlot]
+		tasks: [Task]
 	}
 
 	type Habit {
@@ -96,14 +88,6 @@ const typeDefs = gql`
 		tags: [Tag]
 		startDate: DateTime
 		trackRecord: String
-		timeSlot: [TimeSlot]
-	}
-
-	type Project {
-		id: String!
-		name: String!
-		description: String
-		tags: [Tag]
 		tasks: [Task]
 	}
 
@@ -113,7 +97,6 @@ const typeDefs = gql`
 		getTags: [Tag]
 		getHabit(id: String!): Habit
 		getJournal(id: String!): Journal
-		getProject(id: String!): Project
 		getGoal(id: String!): Goal
 		getTask(id: String!): Task
 	}
@@ -132,17 +115,14 @@ const typeDefs = gql`
 	input TimeSlotInput {
 		start: DateTime!
 		end: DateTime!
-		name: String
-		task: CreateTaskInput
 	}
 
 	input CreateHabitInput {
 		userID: String!
 		name: String!
 		description: String
-		tags: [CreateTagInput]
+		tagIds: [String]
 		startDate: DateTime
-		trackRecord: String
 		timeSlot: TimeSlotInput
 	}
 
@@ -150,12 +130,12 @@ const typeDefs = gql`
 		userID: String!
 		name: String!
 		description: String
-		tags: [CreateTagInput]
+		tags: [String]!
 		startDate: DateTime
 		deadline: DateTime
-		priority: String!
+		priority: Priority!
 		predictedHours: Float!
-		status: String!
+		status: Status!
 		timeSlot: TimeSlotInput
 	}
 
@@ -170,15 +150,13 @@ const typeDefs = gql`
 export default typeDefs;
 
 /*
-    allTasks: [Task]
-    allProjects: [Project]
-    allHabits: [Habit]
-    allJournals: [Journal]
-    allGoals: [Goal]
-    allTasksByTag: [Task]
-    allProjectsByTag: [Project]
-    allHabitsByTag: [Habit]
-    allTags: [Tag]
-    allJournalsByTag: [Journal]
-    allGoalsByTag: [Goal]
+	allTasks: [Task]
+	allHabits: [Habit]
+	allJournals: [Journal]
+	allGoals: [Goal]
+	allTasksByTag: [Task]
+	allHabitsByTag: [Habit]
+	allTags: [Tag]
+	allJournalsByTag: [Journal]
+	allGoalsByTag: [Goal]
 */

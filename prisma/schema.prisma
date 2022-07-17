@@ -10,28 +10,29 @@ generator client {
     provider = "prisma-client-js"
 }
 
-// enum JournalType {
-//     GRATITUDE
-//     EVENT
-//     IDEA
-//     LEARNING
-// }
+enum JournalType {
+    GRATITUDE
+    EVENT
+    IDEA
+    LEARNING
+}
 
-// enum Priority {
-//     TOP
-//     HIGH
-//     MEDIUM
-//     LOW
-//     MAYBE
-// }
+enum Priority {
+    TOP
+    HIGH
+    MEDIUM
+    LOW
+    MAYBE
+}
 
-// enum Status {
-//     NEW
-//     PENDING
-//     PROGRESSING
-//     COMPLETED
-//     BLOCKED
-// }
+enum Status {
+    NEW
+    PENDING
+    PROGRESSING
+    COMPLETED
+    BLOCKED
+    PARKED
+}
 
 model User {
     id       String @id @unique @default(uuid())
@@ -41,13 +42,6 @@ model User {
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
-
-    TimeSlot TimeSlot[]
-    Journal  Journal[]
-    Task     Task[]
-    Goal     Goal[]
-    Habit    Habit[]
-    Project  Project[]
 }
 
 model Tag {
@@ -56,109 +50,67 @@ model Tag {
     description String?
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-
-    Journal   Journal? @relation(fields: [journalId], references: [id])
-    journalId String?
-    Task      Task?    @relation(fields: [taskId], references: [id])
-    taskId    String?
-    Goal      Goal?    @relation(fields: [goalId], references: [id])
-    goalId    String?
-    Habit     Habit?   @relation(fields: [habitId], references: [id])
-    habitId   String?
-    Project   Project? @relation(fields: [projectId], references: [id])
-    projectId String?
 }
 
 model TimeSlot {
-    id     String   @id @unique @default(uuid())
-    start  DateTime
-    end    DateTime
-    name   String?
-    task   Task?    @relation(fields: [taskId], references: [id])
-    taskId String?  @unique
-
-    user   User?   @relation(fields: [userId], references: [id])
-    userId String?
-
-    habit Habit[]
-
-    goal   Goal?   @relation(fields: [goalId], references: [id])
-    goalId String?
+    id    String   @id @unique @default(uuid())
+    start DateTime
+    end   DateTime
 }
 
 model Journal {
     id          String   @id @unique @default(uuid())
     name        String
     description String?
-    tags        Tag[]
+    tagIDs      String[]
+    userId      String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      String?
 
-    journalType String // gratitude, idea, event, learning
+    journalType JournalType @default(IDEA)
 }
 
 model Task {
     id          String   @id @unique @default(uuid())
     name        String
     description String?
-    tags        Tag[]
+    tagIDs      String[]
+    userId      String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      String?
 
     deadline       DateTime?
-    priority       String    @default("MEDIUM")
-    status         String    @default("NEW")
+    priority       Priority  @default(LOW)
+    status         Status    @default(NEW)
     predictedHours Float?
-    timeslot       TimeSlot?
-    project        Project?  @relation(fields: [projectId], references: [id])
-    projectId      String?
+    goalId         String?
+    habitId        String?
+    timeSlotId     String?
 }
 
+// merged goal and project
 model Goal {
     id          String   @id @unique @default(uuid())
     name        String
     description String?
-    tags        Tag[]
+    tagIDs      String[]
+    userId      String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      String?
 
-    why               String
-    relevance         String
-    predictedTimeline TimeSlot[]
+    why       String?
+    relevance String?
 }
 
 model Habit {
     id          String   @id @unique @default(uuid())
     name        String
     description String?
-    tags        Tag[]
+    tagIDs      String[]
+    userId      String
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      String?
 
-    startDate   DateTime
+    startDate   DateTime @default(now())
     trackRecord String?  @default("")
-
-    timeSlot   TimeSlot? @relation(fields: [timeslotId], references: [id])
-    timeslotId String
-}
-
-model Project {
-    id          String   @id @unique @default(uuid())
-    name        String
-    description String?
-    tags        Tag[]
-    createdAt   DateTime @default(now())
-    updatedAt   DateTime @updatedAt
-    user        User?    @relation(fields: [userId], references: [id])
-    userId      String?
-
-    tasks Task[]
 }

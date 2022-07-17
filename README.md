@@ -8,10 +8,6 @@ ORM: Prisma
 
 Backend: GraphQL-Apollo, Node
 
-Frontend: NextJS & iOS or React-Native
-
-Frontend:StateManagement - Redux, Redux-Toolkit
-
 ## Endpoints
 
 ```js
@@ -23,7 +19,6 @@ Frontend:StateManagement - Redux, Redux-Toolkit
 /timeSlot/:timeSlotID  [CREATE, UPDATE, DELETE]
 
 /habit/:habitID  [CREATE ✅, READ, UPDATE, DELETE]
-/project/:projectID  [CREATE, READ, UPDATE, DELETE]
 /journal/:journalID  [CREATE, READ, UPDATE, DELETE]
 /task/:taskID  [CREATE ✅, READ, UPDATE, DELETE]
 /goal/:goalID  [CREATE, READ, UPDATE, DELETE]
@@ -42,7 +37,6 @@ Frontend:StateManagement - Redux, Redux-Toolkit
 /users/ ✅
 /habits/
 /tags/ ✅
-/projects/
 /journals/
 /tasks/
 /goals/
@@ -91,3 +85,5 @@ Regenerating DB:
 ```bash
 npx prisma migrate
 ```
+
+Without foreign key we will have to query all data with either multiple database calls or raw queries.

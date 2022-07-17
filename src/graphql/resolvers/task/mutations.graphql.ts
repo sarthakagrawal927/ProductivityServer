@@ -12,11 +12,7 @@ const mutations: MutationResolvers<ApolloContext, Task> = {
 			priority: createTaskInput?.priority,
 			status: createTaskInput?.status,
 			predictedHours: createTaskInput?.predictedHours,
-			user: {
-				connect: {
-					id: createTaskInput?.userID,
-				},
-			},
+			userId: createTaskInput?.userId,
 		};
 
 		console.log(newTask);
