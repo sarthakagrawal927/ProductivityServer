@@ -32,12 +32,10 @@ const typeDefs = gql`
 		id: String!
 		name: String!
 		email: String!
-		planForTomorrow: [TimeSlot]
 		journals: [Journal]
 		goals: [Goal]
 		habits: [Habit]
 		tasks: [Task]
-		projects: [Project]
 	}
 
 	type Tag {
@@ -48,15 +46,6 @@ const typeDefs = gql`
 		goals: [Goal]
 		habits: [Habit]
 		tasks: [Task]
-		projects: [Project]
-	}
-
-	type TimeSlot {
-		id: String!
-		start: DateTime!
-		end: DateTime!
-		task: Task
-		name: String
 	}
 
 	type Journal {
@@ -76,7 +65,6 @@ const typeDefs = gql`
 		priority: String!
 		predictedHours: Float
 		status: String!
-		timeSlot: TimeSlot
 	}
 
 	type Goal {
@@ -86,7 +74,6 @@ const typeDefs = gql`
 		tags: [Tag]
 		why: String
 		relevance: String
-		predictedTimeline: [TimeSlot]
 	}
 
 	type Habit {
@@ -96,15 +83,6 @@ const typeDefs = gql`
 		tags: [Tag]
 		startDate: DateTime
 		trackRecord: String
-		timeSlot: [TimeSlot]
-	}
-
-	type Project {
-		id: String!
-		name: String!
-		description: String
-		tags: [Tag]
-		tasks: [Task]
 	}
 
 	type Query {
@@ -113,7 +91,6 @@ const typeDefs = gql`
 		getTags: [Tag]
 		getHabit(id: String!): Habit
 		getJournal(id: String!): Journal
-		getProject(id: String!): Project
 		getGoal(id: String!): Goal
 		getTask(id: String!): Task
 	}
@@ -142,8 +119,6 @@ const typeDefs = gql`
 		description: String
 		tags: [CreateTagInput]
 		startDate: DateTime
-		trackRecord: String
-		timeSlot: TimeSlotInput
 	}
 
 	input CreateTaskInput {
@@ -156,7 +131,6 @@ const typeDefs = gql`
 		priority: String!
 		predictedHours: Float!
 		status: String!
-		timeSlot: TimeSlotInput
 	}
 
 	type Mutation {
@@ -170,15 +144,15 @@ const typeDefs = gql`
 export default typeDefs;
 
 /*
-    allTasks: [Task]
-    allProjects: [Project]
-    allHabits: [Habit]
-    allJournals: [Journal]
-    allGoals: [Goal]
-    allTasksByTag: [Task]
-    allProjectsByTag: [Project]
-    allHabitsByTag: [Habit]
-    allTags: [Tag]
-    allJournalsByTag: [Journal]
-    allGoalsByTag: [Goal]
+	allTasks: [Task]
+	allProjects: [Project]
+	allHabits: [Habit]
+	allJournals: [Journal]
+	allGoals: [Goal]
+	allTasksByTag: [Task]
+	allProjectsByTag: [Project]
+	allHabitsByTag: [Habit]
+	allTags: [Tag]
+	allJournalsByTag: [Journal]
+	allGoalsByTag: [Goal]
 */

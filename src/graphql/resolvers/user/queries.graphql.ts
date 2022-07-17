@@ -6,7 +6,16 @@ const queries = {
       where: {
         id: args.id,
       },
+      include: {
+        Habit: {
+          include: {
+            tags: true
+          }
+        },
+      }
     });
+
+    console.log({ user })
 
     return user;
   },
