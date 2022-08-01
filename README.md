@@ -1,8 +1,10 @@
 # Productivity
 
+[Archived] - Will be making this project in different tech stack
+
 ## Tech Stack
 
-Database: PostgreSQL
+Database: PostgreSQL (MongoDB might be a better choice here)
 
 ORM: Prisma
 
